@@ -1,0 +1,38 @@
+{
+  "name": "task-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "jest": "jest --watchAll --verbose",
+    "watch": "webpack --config webpack.config.js --watch",
+    "build": "webpack --config webpack.config.js",
+    "lint": "run-func /build/linter.js lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StepanovYuriy/task-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StepanovYuriy/task-2/issues"
+  },
+  "homepage": "https://github.com/StepanovYuriy/task-2#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "@babel/preset-env": "^7.8.0",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "jest": "^24.9.0",
+    "run-func": "^1.0.3",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "json-to-ast": "^2.1.0"
+  }
+}

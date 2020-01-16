@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Task 2</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="./build/linter.js"></script>
+    <input id="input" type="text" value='{"block": "warning", "content": [ { "block": "placeholder", "mods": { "size": "xl" } } ] }'>
+    <button onclick="alert(JSON.stringify(lint(document.getElementById('input').value), null, 4))">Check linter</button>
+  </body>
+</html>
