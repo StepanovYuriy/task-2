@@ -1,29 +1,34 @@
 import { getBlockName, getModSize } from '../validators';
 import { getNextSize, getAllBlock, getError } from '../linter';
 
-export const validateBlockWarning = (blockWarning) => {
+export const validateBlockWarning = (json) => {
     let errors = [];
 
-    let standartSize = null;
-    const hasError = textSizesShouldBeEqual(blockWarning, (size) => standartSize = size);
-    if (hasError) {
-        errors.push(getError(blockWarning, 'WARNING.TEXT_SIZES_SHOULD_BE_EQUAL'));
-    }
+    getAllBlock(json,
+        (node) => getBlockName(node) === 'warning',
+        (blockWarning) => {
+            let standartSize = null;
+            const hasError = textSizesShouldBeEqual(blockWarning, (size) => standartSize = size);
+            if (hasError) {
+                errors.push(getError(blockWarning, 'WARNING.TEXT_SIZES_SHOULD_BE_EQUAL'));
+            }
 
-    invalidButtonSize(blockWarning, standartSize, (blockButton) => {
-        errors.push(getError(blockButton, 'WARNING.INVALID_BUTTON_SIZE'));
-    });
+            invalidButtonSize(blockWarning, standartSize, (blockButton) => {
+                errors.push(getError(blockButton, 'WARNING.INVALID_BUTTON_SIZE'));
+            });
 
-    invalidButtonPosition(blockWarning, (blockButton) => {
-        errors.push(getError(blockButton, 'WARNING.INVALID_BUTTON_POSITION'));
-    });
+            invalidButtonPosition(blockWarning, (blockButton) => {
+                errors.push(getError(blockButton, 'WARNING.INVALID_BUTTON_POSITION'));
+            });
 
-    invalidPlaceholderSize(blockWarning, (blockPlaceholder) => {
-        errors.push(getError(blockPlaceholder, 'WARNING.INVALID_PLACEHOLDER_SIZE'));
-    });
+            invalidPlaceholderSize(blockWarning, (blockPlaceholder) => {
+                errors.push(getError(blockPlaceholder, 'WARNING.INVALID_PLACEHOLDER_SIZE'));
+            });
+        }
+    );
 
     return errors;
-}
+};
 
 /**
  * Правило линтинга блока warning №1:
@@ -68,13 +73,9 @@ export const invalidButtonSize = (blockWarning, standartSize, callback) => {
                     if (size !== expectedSizeButton) {
                         callback(blockButton);
                     }
-                } else {
-                    //TODO Что делать с блоком button, если его размер не найден?
                 }
             }
         );
-    } else {
-        //TODO Что делать с блоком button, если эталонный размер не найден?
     }
 };
 
@@ -115,8 +116,6 @@ export const invalidPlaceholderSize = (blockWarning, callback) => {
                 if (!['s', 'm', 'l'].includes(size)) {
                     callback(blockPlaceholder);
                 }
-            } else {
-                //TODO Что делать с блоком placeholder без модификатора размера?
             }
         }
     );

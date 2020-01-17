@@ -1,4 +1,4 @@
-import { lint } from "../index";
+import { lint } from '../index';
 
 const testFirstRile1 = `[
     {

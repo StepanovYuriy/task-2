@@ -6,25 +6,7 @@ export const parseJson = (json) => {
     } catch (e) {
         console.error(`Ошибка при обработке jsonToAst: ${e}`);
     }
-}
-
-export const checkNode = (node, callbackProperty, callbackObject) => {
-    if (!node) return;
-    switch (node.type) {
-        case 'Array':
-            node.children.forEach((item) => {
-                checkNode(item, callbackProperty, callbackObject);
-            });
-            break;
-        case 'Object':
-            callbackObject(node);
-            node.children.forEach((property) => {
-                callbackProperty(property);
-                checkNode(property.value, callbackProperty, callbackObject);
-            });
-            break;
-    }
-}
+};
 
 export const getAllBlock = (node, validator, callback) => {
     if (!node) return;
@@ -44,7 +26,7 @@ export const getAllBlock = (node, validator, callback) => {
             getAllBlock(node.value, validator, callback);
             break;
     }
-}
+};
 
 export const getError = (block, code) => {
     return {
@@ -52,7 +34,7 @@ export const getError = (block, code) => {
         "error": getTextByCode(code),
         "location": getLocation(block.loc),
     };
-}
+};
 
 export const getLocation = ({ start, end }) => {
     return {
@@ -65,7 +47,7 @@ export const getLocation = ({ start, end }) => {
             "line": end.line,
         },
     };
-}
+};
 
 export const getNextSize = (size) => {
     switch (size) {
@@ -83,7 +65,7 @@ export const getNextSize = (size) => {
         case 'xxxxxl': return 'xxxxxxl';
         default: return null;
     }
-}
+};
 
 export const getTextByCode = (code) => {
     switch (code) {
@@ -108,7 +90,24 @@ export const getTextByCode = (code) => {
         case 'TEXT.INVALID_H3_POSITION':
             return 'Заголовок третьего уровня не может находиться перед заголовком второго уровня';
 
+        case 'GRID.TOO_MUCH_MARKETING_BLOCKS':
+            return 'Маркетинговые блоки должны занимать не больше половины от всех колонок блока grid';
+
         default:
             return `Неизвестный код ошибки: ${code}`;
     }
-}
+};
+
+export const infoFunctionalBlocks = [
+    'payment',
+    'warning',
+    'product',
+    'history',
+    'cover',
+    'collect',
+    'articles',
+    'subscribtion',
+    'event'
+];
+
+export const marketingBlocks = ['commercial', 'offer'];

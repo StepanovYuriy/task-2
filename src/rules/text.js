@@ -1,5 +1,5 @@
-import { getAllBlock, getError } from "../linter";
-import { getBlockName, getModType } from "../validators";
+import { getAllBlock, getError } from '../linter';
+import { getBlockName, getModType } from '../validators';
 
 export const validateBlockText = (json) => {
     let errors = [];
@@ -17,7 +17,7 @@ export const validateBlockText = (json) => {
     });
 
     return errors;
-}
+};
 
 /**
  * Правило линтинга блока warning №1:

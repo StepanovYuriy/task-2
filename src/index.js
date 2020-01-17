@@ -1,16 +1,15 @@
-import { parseJson, checkNode } from './linter';
-import { validateProperty, validateObject } from './validators';
+import { parseJson } from './linter';
+import { validateBlockWarning } from './rules/warning';
 import { validateBlockText } from './rules/text';
+import { validateBlockGrid } from './rules/grid';
 
-export function lint(json) {
+export function lint(string) {
     let errors = [];
-    const ast = parseJson(json);
-    if (ast) {
-        checkNode(ast,
-            (property) => errors = errors.concat(...validateProperty(property)),
-            (object) => errors = errors.concat(...validateObject(object)));
-
-        errors = errors.concat(...validateBlockText(ast));
+    const json = parseJson(string);
+    if (json) {
+        errors = errors.concat(validateBlockWarning(json));
+        errors = errors.concat(validateBlockText(json));
+        errors = errors.concat(validateBlockGrid(json));
     }
     return errors;
 }
