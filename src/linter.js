@@ -99,6 +99,15 @@ export const getTextByCode = (code) => {
         case 'WARNING.INVALID_PLACEHOLDER_SIZE':
             return 'В блоке warning блок placeholder должен быть размера s, m или l';
 
+        case 'TEXT.SEVERAL_H1':
+            return 'Заголовок первого уровня на странице должен быть единственным';
+
+        case 'TEXT.INVALID_H2_POSITION':
+            return 'Заголовок второго уровня не может находиться перед заголовком первого уровня';
+
+        case 'TEXT.INVALID_H3_POSITION':
+            return 'Заголовок третьего уровня не может находиться перед заголовком второго уровня';
+
         default:
             return `Неизвестный код ошибки: ${code}`;
     }

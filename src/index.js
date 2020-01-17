@@ -1,5 +1,6 @@
 import { parseJson, checkNode } from './linter';
 import { validateProperty, validateObject } from './validators';
+import { validateBlockText } from './rules/text';
 
 export function lint(json) {
     let errors = [];
@@ -8,6 +9,8 @@ export function lint(json) {
         checkNode(ast,
             (property) => errors = errors.concat(...validateProperty(property)),
             (object) => errors = errors.concat(...validateObject(object)));
+
+        errors = errors.concat(...validateBlockText(ast));
     }
     return errors;
 }

@@ -36,9 +36,21 @@ export const getSize = (object) => {
     return (property && property.value.value) ? property.value.value : null;
 }
 
+export const getType = (object) => {
+    const property = object.children.find((property) => property.key.value === 'type');
+    return (property && property.value.value) ? property.value.value : null;
+}
+
 export const getModSize = (object) => {
     let size = null;
     const mods = getMods(object);
     if (!mods) return size;
     return getSize(mods);
+};
+
+export const getModType = (object) => {
+    let type = null;
+    const mods = getMods(object);
+    if (!mods) return type;
+    return getType(mods);
 };
