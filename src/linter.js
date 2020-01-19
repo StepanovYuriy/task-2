@@ -8,62 +8,82 @@ export const parseJson = (json) => {
     }
 };
 
-export const getAllBlock = (node, validator, callback) => {
-    if (!node) return;
+export const getAllBlocks = (node, validator, callback) => {
+    if (!node) {
+        return;
+    }
+
     switch (node.type) {
         case 'Array':
             node.children.forEach((item) => {
-                getAllBlock(item, validator, callback);
+                getAllBlocks(item, validator, callback);
             });
             break;
+
         case 'Object':
-            if (validator(node)) callback(node);
+            if (validator(node)) {
+                callback(node);
+            }
             node.children.forEach((item) => {
-                getAllBlock(item, validator, callback);
+                getAllBlocks(item, validator, callback);
             });
             break;
+
         case 'Property':
-            getAllBlock(node.value, validator, callback);
+            getAllBlocks(node.value, validator, callback);
             break;
     }
 };
 
 export const getError = (block, code) => {
     return {
-        "code": code,
-        "error": getTextByCode(code),
-        "location": getLocation(block.loc),
+        code,
+        error: getTextByCode(code),
+        location: getLocation(block.loc),
     };
 };
 
 export const getLocation = ({ start, end }) => {
     return {
-        "start": {
-            "column": start.column,
-            "line": start.line,
+        start: {
+            column: start.column,
+            line: start.line,
         },
-        "end": {
-            "column": end.column,
-            "line": end.line,
+        end: {
+            column: end.column,
+            line: end.line,
         },
     };
 };
 
 export const getNextSize = (size) => {
     switch (size) {
-        case 'xxxxs': return 'xxxs';
-        case 'xxxs': return 'xxs';
-        case 'xxs': return 'xs';
-        case 'xs': return 's';
-        case 's': return 'm';
-        case 'm': return 'l';
-        case 'l': return 'xl';
-        case 'xl': return 'xxl';
-        case 'xxl': return 'xxxl';
-        case 'xxxl': return 'xxxxl';
-        case 'xxxxl': return 'xxxxxl';
-        case 'xxxxxl': return 'xxxxxxl';
-        default: return null;
+        case 'xxxxs':
+            return 'xxxs';
+        case 'xxxs':
+            return 'xxs';
+        case 'xxs':
+            return 'xs';
+        case 'xs':
+            return 's';
+        case 's':
+            return 'm';
+        case 'm':
+            return 'l';
+        case 'l':
+            return 'xl';
+        case 'xl':
+            return 'xxl';
+        case 'xxl':
+            return 'xxxl';
+        case 'xxxl':
+            return 'xxxxl';
+        case 'xxxxl':
+            return 'xxxxxl';
+        case 'xxxxxl':
+            return 'xxxxxxl';
+        default:
+            return null;
     }
 };
 

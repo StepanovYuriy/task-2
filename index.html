@@ -6,7 +6,11 @@
   </head>
   <body>
     <script type="text/javascript" src="./build/linter.js"></script>
-    <input id="input" type="text" value='{"block": "warning", "content": [ { "block": "placeholder", "mods": { "size": "xl" } } ] }'>
-    <button onclick="alert(JSON.stringify(lint(document.getElementById('input').value), null, 4))">Check linter</button>
+    <textarea id="input" rows="30" cols="100">
+      {"block": "warning", "content": [ { "block": "placeholder", "mods": { "size": "xl" } } ] }
+    </textarea>
+    <button onclick="alert(JSON.stringify(lint(document.getElementById('input').value), null, 4))">
+      Check linter
+    </button>
   </body>
 </html>

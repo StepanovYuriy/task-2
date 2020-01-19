@@ -1,13 +1,14 @@
-import { getAllBlock, getError, infoFunctionalBlocks, marketingBlocks } from '../linter';
+import { getAllBlocks, getError, infoFunctionalBlocks, marketingBlocks } from '../linter';
 import { getBlockName, isBlockGridWithModMColumns, isBlockGridWithElemModMCol, getElemModMCol } from '../validators';
 
 export const validateBlockGrid = (json) => {
     let errors = [];
 
-    getAllBlock(json,
+    getAllBlocks(json,
         (node) => isBlockGridWithModMColumns(node),
         (blockGridContainer) => {
             const hasError = tooMuchMarketingBlock(blockGridContainer);
+
             if (hasError) {
                 errors.push(getError(blockGridContainer, 'GRID.TOO_MUCH_MARKETING_BLOCKS'));
             }
@@ -28,15 +29,18 @@ export const validateBlockGrid = (json) => {
 export const tooMuchMarketingBlock = (blockGridContainer) => {
     let countInfoFunctionalBlocks = 0, countMarketingBlocks = 0;
     const allValidContentBlocks = infoFunctionalBlocks.concat(marketingBlocks);
-    getAllBlock(blockGridContainer,
+
+    getAllBlocks(blockGridContainer,
         (node) => isBlockGridWithElemModMCol(node),
         (blockGridColumn) => {
             const count = parseInt(getElemModMCol(blockGridColumn));
+
             if (count > 0) {
-                getAllBlock(blockGridColumn,
+                getAllBlocks(blockGridColumn,
                     (node) => allValidContentBlocks.includes(getBlockName(node)),
                     (blockInColumn) => {
                         const name = getBlockName(blockInColumn);
+
                         if (infoFunctionalBlocks.includes(name)) {
                             countInfoFunctionalBlocks += count;
                         } else if (marketingBlocks.includes(name)) {
@@ -47,5 +51,6 @@ export const tooMuchMarketingBlock = (blockGridContainer) => {
             }
         }
     );
+
     return countMarketingBlocks > countInfoFunctionalBlocks;
 };

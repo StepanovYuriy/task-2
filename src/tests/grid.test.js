@@ -1,6 +1,6 @@
 import { lint } from '../index';
 
-const testFirstRile1 = `{
+const testFirstRule1 = `{
     "block": "grid",
     "mods": {
         "m-columns": "10"
@@ -32,9 +32,9 @@ const testFirstRile1 = `{
         }
     ]
 }`;
-const resultFirstRile1 = [];
+const resultFirstRule1 = [];
 
-const testFirstRile2 = `{
+const testFirstRule2 = `{
     "block": "grid",
     "mods": {
         "m-columns": "10"
@@ -66,7 +66,7 @@ const testFirstRile2 = `{
         }
     ]
 }`;
-const resultFirstRile2 = [
+const resultFirstRule2 = [
     {
         "code": "GRID.TOO_MUCH_MARKETING_BLOCKS",
         "error": "Маркетинговые блоки должны занимать не больше половины от всех колонок блока grid",
@@ -77,15 +77,14 @@ const resultFirstRile2 = [
     }
 ];
 
-
 describe('Правила линтинга блока grid', () => {
-
     describe('№1 Маркетинговые блоки должны занимать не больше половины от всех колонок блока grid', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testFirstRile1)).toStrictEqual(resultFirstRile1);
+            expect(lint(testFirstRule1)).toStrictEqual(resultFirstRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testFirstRile2)).toStrictEqual(resultFirstRile2);
+            expect(lint(testFirstRule2)).toStrictEqual(resultFirstRule2);
         });
     });
 });

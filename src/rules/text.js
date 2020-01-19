@@ -1,4 +1,4 @@
-import { getAllBlock, getError } from '../linter';
+import { getAllBlocks, getError } from '../linter';
 import { getBlockName, getModType } from '../validators';
 
 export const validateBlockText = (json) => {
@@ -25,10 +25,12 @@ export const validateBlockText = (json) => {
  */
 export const severalH1 = (json, callback) => {
     let hasH1 = false;
-    getAllBlock(json,
+
+    getAllBlocks(json,
         (node) => getBlockName(node) === 'text',
         (blockText) => {
             const type = getModType(blockText);
+
             if (type === 'h1') {
                 if (!hasH1) {
                     hasH1 = true;
@@ -47,10 +49,12 @@ export const severalH1 = (json, callback) => {
  */
 export const invalidH2Position = (json, callback) => {
     let queueWithH2 = [];
-    getAllBlock(json,
+
+    getAllBlocks(json,
         (node) => getBlockName(node) === 'text',
         (blockText) => {
             const type = getModType(blockText);
+
             switch (type) {
                 case 'h2':
                     queueWithH2.push(blockText);
@@ -71,10 +75,12 @@ export const invalidH2Position = (json, callback) => {
  */
 export const invalidH3Position = (json, callback) => {
     let queueWithH3 = [];
-    getAllBlock(json,
+
+    getAllBlocks(json,
         (node) => getBlockName(node) === 'text',
         (blockText) => {
             const type = getModType(blockText);
+
             switch (type) {
                 case 'h3':
                     queueWithH3.push(blockText);

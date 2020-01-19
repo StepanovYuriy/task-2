@@ -1,14 +1,14 @@
 import { lint } from '../index';
 
-const testFirstRile1 = `[
+const testFirstRule1 = `[
     {
         "block": "text",
         "mods": { "type": "h1" }
     }
 ]`;
-const resultFirstRile1 = [];
+const resultFirstRule1 = [];
 
-const testFirstRile2 = `[
+const testFirstRule2 = `[
     {
         "block": "text",
         "mods": { "type": "h1" }
@@ -18,7 +18,7 @@ const testFirstRile2 = `[
         "mods": { "type": "h1" }
     }
 ]`;
-const resultFirstRile2 = [
+const resultFirstRule2 = [
     {
         "code": "TEXT.SEVERAL_H1",
         "error": "Заголовок первого уровня на странице должен быть единственным",
@@ -29,8 +29,7 @@ const resultFirstRile2 = [
     }
 ];
 
-
-const testSecondRile1 = `[
+const testSecondRule1 = `[
     {
         "block": "text",
         "mods": { "type": "h1" }
@@ -40,9 +39,9 @@ const testSecondRile1 = `[
         "mods": { "type": "h2" }
     }
 ]`;
-const resultSecondRile1 = [];
+const resultSecondRule1 = [];
 
-const testSecondRile2 = `[
+const testSecondRule2 = `[
     {
         "block": "text",
         "mods": { "type": "h2" }
@@ -52,7 +51,7 @@ const testSecondRile2 = `[
         "mods": { "type": "h1" }
     }
 ]`;
-const resultSecondRile2 = [
+const resultSecondRule2 = [
     {
         "code": "TEXT.INVALID_H2_POSITION",
         "error": "Заголовок второго уровня не может находиться перед заголовком первого уровня",
@@ -63,8 +62,7 @@ const resultSecondRile2 = [
     }
 ];
 
-
-const testThirdRile1 = `[
+const testThirdRule1 = `[
     {
         "block": "text",
         "mods": { "type": "h2" }
@@ -74,9 +72,9 @@ const testThirdRile1 = `[
         "mods": { "type": "h3" }
     }
 ]`;
-const resultThirdRile1 = [];
+const resultThirdRule1 = [];
 
-const testThirdRile2 = `[
+const testThirdRule2 = `[
     {
         "block": "text",
         "mods": { "type": "h3" }
@@ -86,7 +84,7 @@ const testThirdRile2 = `[
         "mods": { "type": "h2" }
     }
 ]`;
-const resultThirdRile2 = [
+const resultThirdRule2 = [
     {
         "code": "TEXT.INVALID_H3_POSITION",
         "error": "Заголовок третьего уровня не может находиться перед заголовком второго уровня",
@@ -97,33 +95,34 @@ const resultThirdRile2 = [
     }
 ];
 
-
 describe('Правила линтинга блока text', () => {
-
     describe('№1 Заголовок первого уровня на странице должен быть единственным', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testFirstRile1)).toStrictEqual(resultFirstRile1);
+            expect(lint(testFirstRule1)).toStrictEqual(resultFirstRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testFirstRile2)).toStrictEqual(resultFirstRile2);
+            expect(lint(testFirstRule2)).toStrictEqual(resultFirstRule2);
         });
     });
 
     describe('№2 Заголовок второго уровня не может находиться перед заголовком первого уровня', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testSecondRile1)).toStrictEqual(resultSecondRile1);
+            expect(lint(testSecondRule1)).toStrictEqual(resultSecondRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testSecondRile2)).toStrictEqual(resultSecondRile2);
+            expect(lint(testSecondRule2)).toStrictEqual(resultSecondRule2);
         });
     });
 
     describe('№3 Заголовок третьего уровня не может находиться перед заголовком второго уровня', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testThirdRile1)).toStrictEqual(resultThirdRile1);
+            expect(lint(testThirdRule1)).toStrictEqual(resultThirdRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testThirdRile2)).toStrictEqual(resultThirdRile2);
+            expect(lint(testThirdRule2)).toStrictEqual(resultThirdRule2);
         });
     });
 });

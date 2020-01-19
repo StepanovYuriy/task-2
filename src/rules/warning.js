@@ -1,13 +1,14 @@
 import { getBlockName, getModSize } from '../validators';
-import { getNextSize, getAllBlock, getError } from '../linter';
+import { getNextSize, getAllBlocks, getError } from '../linter';
 
 export const validateBlockWarning = (json) => {
     let errors = [];
 
-    getAllBlock(json,
+    getAllBlocks(json,
         (node) => getBlockName(node) === 'warning',
         (blockWarning) => {
             let standartSize = null;
+
             const hasError = textSizesShouldBeEqual(blockWarning, (size) => standartSize = size);
             if (hasError) {
                 errors.push(getError(blockWarning, 'WARNING.TEXT_SIZES_SHOULD_BE_EQUAL'));
@@ -38,24 +39,30 @@ export const validateBlockWarning = (json) => {
  * Размер первого из таких элементов в форме будем считать эталонным.
  */
 export const textSizesShouldBeEqual = (blockWarning, callback) => {
-    let result = false;
+    let hasError = false;
     let standartSize = null;
-    getAllBlock(blockWarning,
+
+    getAllBlocks(blockWarning,
         (node) => getBlockName(node) === 'text',
         (blockText) => {
-            if (result) return;
+            if (hasError) {
+                return;
+            }
+
             const size = getModSize(blockText);
+
             if (size) {
                 if (!standartSize) {
                     standartSize = size;
                     callback(standartSize);
                 } else if (standartSize !== size) {
-                    result = true;
+                    hasError = true;
                 }
             }
         }
     );
-    return result;
+
+    return hasError;
 };
 
 /**
@@ -64,11 +71,13 @@ export const textSizesShouldBeEqual = (blockWarning, callback) => {
  */
 export const invalidButtonSize = (blockWarning, standartSize, callback) => {
     const expectedSizeButton = getNextSize(standartSize);
+
     if (expectedSizeButton) {
-        getAllBlock(blockWarning,
+        getAllBlocks(blockWarning,
             (node) => getBlockName(node) === 'button',
             (blockButton) => {
                 const size = getModSize(blockButton);
+
                 if (size) {
                     if (size !== expectedSizeButton) {
                         callback(blockButton);
@@ -86,10 +95,12 @@ export const invalidButtonSize = (blockWarning, standartSize, callback) => {
  */
 export const invalidButtonPosition = (blockWarning, callback) => {
     let queueWithButtons = [];
-    getAllBlock(blockWarning,
+
+    getAllBlocks(blockWarning,
         (node) => ['placeholder', 'button'].includes(getBlockName(node)),
         (block) => {
             const blockName = getBlockName(block);
+
             switch (blockName) {
                 case 'button':
                     queueWithButtons.push(block);
@@ -108,10 +119,11 @@ export const invalidButtonPosition = (blockWarning, callback) => {
  * Допустимые размеры для блока placeholder в блоке warning (значение модификатора size): s, m, l.
  */
 export const invalidPlaceholderSize = (blockWarning, callback) => {
-    getAllBlock(blockWarning,
+    getAllBlocks(blockWarning,
         (node) => getBlockName(node) === 'placeholder',
         (blockPlaceholder) => {
             const size = getModSize(blockPlaceholder);
+
             if (size) {
                 if (!['s', 'm', 'l'].includes(size)) {
                     callback(blockPlaceholder);

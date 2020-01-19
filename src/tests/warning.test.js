@@ -1,22 +1,22 @@
 import { lint } from '../index';
 
-const testFirstRile1 = `{
+const testFirstRule1 = `{
     "block": "warning",
     "content": [
         { "block": "text", "mods": { "size": "l" } },
         { "block": "text", "mods": { "size": "l" } }
     ]
 }`;
-const resultFirstRile1 = [];
+const resultFirstRule1 = [];
 
-const testFirstRile2 = `{
+const testFirstRule2 = `{
     "block": "warning",
     "content": [
         { "block": "text", "mods": { "size": "l" } },
         { "block": "text", "mods": { "size": "m" } }
     ]
 }`;
-const resultFirstRile2 = [
+const resultFirstRule2 = [
     {
         "code": "WARNING.TEXT_SIZES_SHOULD_BE_EQUAL",
         "error": "В блоке warning все блоки text должны быть одного размера",
@@ -27,24 +27,23 @@ const resultFirstRile2 = [
     }
 ];
 
-
-const testSecondRile1 = `{
+const testSecondRule1 = `{
     "block": "warning",
     "content": [
         { "block": "text", "mods": { "size": "l" } },
         { "block": "button", "mods": { "size": "xl" } }
     ]
 }`;
-const resultSecondRile1 = [];
+const resultSecondRule1 = [];
 
-const testSecondRile2 = `{
+const testSecondRule2 = `{
     "block": "warning",
     "content": [
         { "block": "text", "mods": { "size": "l" } },
         { "block": "button", "mods": { "size": "s" } }
     ]
 }`;
-const resultSecondRile2 = [
+const resultSecondRule2 = [
     {
         "code": "WARNING.INVALID_BUTTON_SIZE",
         "error": "В блоке warning размер блока button должен быть на 1 шаг больше эталонного",
@@ -55,24 +54,23 @@ const resultSecondRile2 = [
     }
 ];
 
-
-const testThirdRile1 = `{
+const testThirdRule1 = `{
     "block": "warning",
     "content": [
         { "block": "placeholder", "mods": { "size": "m" } },
         { "block": "button", "mods": { "size": "m" } }
     ]
 }`;
-const resultThirdRile1 = [];
+const resultThirdRule1 = [];
 
-const testThirdRile2 = `{
+const testThirdRule2 = `{
     "block": "warning",
     "content": [
         { "block": "button", "mods": { "size": "m" } },
         { "block": "placeholder", "mods": { "size": "m" } }
     ]
 }`;
-const resultThirdRile2 = [
+const resultThirdRule2 = [
     {
         "code": "WARNING.INVALID_BUTTON_POSITION",
         "error": "В блоке warning блок button не может находиться перед блоком placeholder",
@@ -83,22 +81,21 @@ const resultThirdRile2 = [
     }
 ];
 
-
-const testFourthRile1 = `{
+const testFourthRule1 = `{
     "block": "warning",
     "content": [
         { "block": "placeholder", "mods": { "size": "m" } }
     ]
 }`;
-const resultFourthRile1 = [];
+const resultFourthRule1 = [];
 
-const testFourthRile2 = `{
+const testFourthRule2 = `{
     "block": "warning",
     "content": [
         { "block": "placeholder", "mods": { "size": "xl" } }
     ]
 }`;
-const resultFourthRile2 = [
+const resultFourthRule2 = [
     {
         "code": "WARNING.INVALID_PLACEHOLDER_SIZE",
         "error": "В блоке warning блок placeholder должен быть размера s, m или l",
@@ -109,42 +106,44 @@ const resultFourthRile2 = [
     }
 ];
 
-
 describe('Правила линтинга блока warning', () => {
-
     describe('№1 В блоке warning все блоки text должны быть одного размера', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testFirstRile1)).toStrictEqual(resultFirstRile1);
+            expect(lint(testFirstRule1)).toStrictEqual(resultFirstRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testFirstRile2)).toStrictEqual(resultFirstRile2);
+            expect(lint(testFirstRule2)).toStrictEqual(resultFirstRule2);
         });
     });
 
     describe('№2 В блоке warning размер блока button должен быть на 1 шаг больше эталонного', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testSecondRile1)).toStrictEqual(resultSecondRile1);
+            expect(lint(testSecondRule1)).toStrictEqual(resultSecondRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testSecondRile2)).toStrictEqual(resultSecondRile2);
+            expect(lint(testSecondRule2)).toStrictEqual(resultSecondRule2);
         });
     });
 
     describe('№3 В блоке warning блок button не может находиться перед блоком placeholder', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testThirdRile1)).toStrictEqual(resultThirdRile1);
+            expect(lint(testThirdRule1)).toStrictEqual(resultThirdRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testThirdRile2)).toStrictEqual(resultThirdRile2);
+            expect(lint(testThirdRule2)).toStrictEqual(resultThirdRule2);
         });
     });
 
     describe('№4 В блоке warning блок placeholder должен быть размера s, m или l', () => {
         test('Пример из readme без ошибки', () => {
-            expect(lint(testFourthRile1)).toStrictEqual(resultFourthRile1);
+            expect(lint(testFourthRule1)).toStrictEqual(resultFourthRule1);
         });
+
         test('Пример из readme с ошибкой', () => {
-            expect(lint(testFourthRile2)).toStrictEqual(resultFourthRile2);
+            expect(lint(testFourthRule2)).toStrictEqual(resultFourthRule2);
         });
     });
 });
